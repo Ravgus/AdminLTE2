@@ -1,0 +1,22 @@
+{% extends 'admin/lte.html.twig' %}
+
+{% block title %}
+    {{ category.title }}
+{% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content_body %}
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ category.title }}</h3>
+            </div>
+        </div>
+        <!-- /.box -->
+
+    </section>
+{% endblock %}
