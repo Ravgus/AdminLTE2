@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
- * @UniqueEntity(fields="title", message="This $title is already used")
+ * @UniqueEntity(fields="title", message="This title is already used")
  * @ORM\Table()
  */
 class Category
@@ -21,6 +22,8 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="1", max="255")
      */
     private $title;
 

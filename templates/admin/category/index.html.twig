@@ -12,6 +12,11 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
+                    {% for message in app.flashes('notice') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     <div class="box-header">
                         <h3 class="box-title">Categories</h3>
                     </div>
@@ -22,6 +27,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Title</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -29,12 +35,19 @@
                                 <tr>
                                     <td>{{ category.id }}</td>
                                     <td><a href="{{ path('admin_category_current', {'id': category.id}) }}">{{ category.title }}</a></td>
+                                    <td>
+                                        <a href="{{ path('admin_category_edit', {'id': category.id}) }}" role="button" class="btn btn-warning">Edit</a>
+                                        <a href="{{ path('admin_category_delete', {'id': category.id}) }}" role="button" class="btn btn-danger">Remove</a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
                     <!-- /.box-body -->
+                    <div class="box-footer">
+                        <a href="{{ path('admin_category_add') }}" role="button" class="btn btn-primary">Add new</a>
+                    </div>
                 </div>
                 <!-- /.box -->
             </div>

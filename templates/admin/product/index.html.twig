@@ -12,6 +12,11 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
+                    {% for message in app.flashes('notice') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     <div class="box-header">
                         <h3 class="box-title">Products</h3>
                     </div>
@@ -25,6 +30,7 @@
                                 <th>Description</th>
                                 <th>Price</th>
                                 <th>Count</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -35,12 +41,19 @@
                                     <td>{{ product.description }}</td>
                                     <td>{{ product.price }}</td>
                                     <td>{{ product.count }}</td>
+                                    <td>
+                                        <a href="{{ path('admin_product_edit', {'id': product.id}) }}" role="button" class="btn btn-warning">Edit</a>
+                                        <a href="{{ path('admin_product_delete', {'id': product.id}) }}" role="button" class="btn btn-danger">Remove</a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
                     <!-- /.box-body -->
+                    <div class="box-footer">
+                        <a href="{{ path('admin_product_add') }}" role="button" class="btn btn-primary">Add new</a>
+                    </div>
                 </div>
                 <!-- /.box -->
             </div>
