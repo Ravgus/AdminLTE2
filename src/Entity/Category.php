@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,6 +29,16 @@ class Category
      */
     private $title;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category")
+     */
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -42,5 +54,30 @@ class Category
         $this->title = $title;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param mixed $products
+     */
+    public function setProducts($products): void
+    {
+        $this->products = $products;
+    }
+
+    /**
+     * Generates the magic method
+     *
+     */
+    public function __toString()
+    {
+        return $this->title;
     }
 }

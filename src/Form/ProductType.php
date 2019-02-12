@@ -8,7 +8,9 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Product;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,6 +31,9 @@ class ProductType extends AbstractType
             ])
             ->add('count', NumberType::class, [
                 'invalid_message' => 'You entered an invalid value, it should be integer',
+            ])
+            ->add('category', EntityType::class , [
+                'class' => Category::class,
             ])
             ->add('Save', SubmitType::class);
     }

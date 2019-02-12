@@ -28,6 +28,7 @@
                                 <th>Id</th>
                                 <th>Title</th>
                                 <th>Description</th>
+                                <th>Category</th>
                                 <th>Price</th>
                                 <th>Count</th>
                                 <th>Actions</th>
@@ -39,6 +40,7 @@
                                     <td>{{ product.id }}</td>
                                     <td><a href="{{ path('admin_product_current', {'id': product.id}) }}">{{ product.title }}</a></td>
                                     <td>{{ product.description }}</td>
+                                    <td>{{ product.category.title }}</td>
                                     <td>{{ product.price }}</td>
                                     <td>{{ product.count }}</td>
                                     <td>

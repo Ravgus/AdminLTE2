@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Repository\CategoryRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -14,7 +15,9 @@ class AppFixtures extends Fixture
         'DVD',
         'Games',
         'Toys',
-        'Series'
+        'Series',
+        'Computers',
+        'Food'
     ];
 
     private const PRODUCT_TITLE = [
@@ -38,12 +41,21 @@ class AppFixtures extends Fixture
         'Did you watch the game yesterday?',
         'How was your day?'
     ];
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
 
     public function load(ObjectManager $manager)
     {
         $this->categories($manager);
         $this->products($manager);
-
+        
         $manager->flush();
     }
 
@@ -59,12 +71,16 @@ class AppFixtures extends Fixture
             $manager->persist($product);
         }*/
 
+        $i = 0;
+
         foreach (self::PRODUCT_TITLE as $title) {
             $product = new Product();
             $product->setTitle($title);
             $product->setDescription(self::PRODUCT_DESC[rand(0, count(self::PRODUCT_DESC) - 1)]);
             $product->setPrice(rand(0, 5000));
             $product->setCount(rand(0, 100));
+            $product->setCategory($this->getReference('t_'.$i));
+            $i++;
 
             $manager->persist($product);
         }
@@ -79,9 +95,13 @@ class AppFixtures extends Fixture
             $manager->persist($category);
         }*/
 
+        $i = 0;
+
         foreach (self::CATEGORY_TITLE as $title) {
             $category = new Category();
             $category->setTitle($title);
+            $this->addReference('t_'.$i, $category);
+            $i++;
 
             $manager->persist($category);
         }
