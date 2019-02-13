@@ -31,6 +31,7 @@
                                 <th>Category</th>
                                 <th>Price</th>
                                 <th>Count</th>
+                                <th>Image</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -43,6 +44,13 @@
                                     <td>{{ product.category.title }}</td>
                                     <td>{{ product.price }}</td>
                                     <td>{{ product.count }}</td>
+                                    <td>
+                                        {% if product.image is not empty %}
+                                            <img src="{{ asset(product.image) }}" alt="{{ product.title }}">
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <a href="{{ path('admin_product_edit', {'id': product.id}) }}" role="button" class="btn btn-warning">Edit</a>
                                         <a href="{{ path('admin_product_delete', {'id': product.id}) }}" role="button" class="btn btn-danger">Remove</a>

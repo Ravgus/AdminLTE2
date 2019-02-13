@@ -62,9 +62,21 @@ class User implements UserInterface, \Serializable
      */
     private $roles;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Image(maxSize="5M", maxSizeMessage="The image has to be less than 5 MB")
+     */
+    private $logo;
+
     public function __construct()
     {
         $this->roles = [self::ROLE_USER];
+        $this->date = new \DateTime();
     }
 
     public function getId(): ?int
@@ -97,6 +109,22 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param \DateTime $date
+     */
+    public function setDate($date): void
+    {
+        $this->date = $date;
+    }
+
+    /**
      * @param mixed $fullName
      */
     public function setFullName($fullName): void
@@ -118,6 +146,22 @@ class User implements UserInterface, \Serializable
     public function setPassword($password): void
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param mixed $logo
+     */
+    public function setLogo($logo): void
+    {
+        $this->logo = $logo;
     }
 
     /**

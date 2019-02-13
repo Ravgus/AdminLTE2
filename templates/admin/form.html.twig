@@ -24,3 +24,19 @@
 
     </section>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
+
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#product_description' ) )
+            .then( editor => {
+                console.log( editor );
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
+{% endblock %}

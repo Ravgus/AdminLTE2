@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Cabinet for {{ app.user.username }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mx-auto">
+                <p>Username: {{ app.user.username }}</p>
+                <p>Email: {{ app.user.email }}</p>
+                <p>FullName: {{ app.user.fullName }}</p>
+                <p>
+                    {% if app.user.logo is not empty %}
+                        <img src="{{ asset(app.user.logo) }}" alt="{{ app.user.username }}">
+                    {% else %}
+                        <img src="{{ asset('uploads/user-logo.png') }}" alt="{{ app.user.username }}">
+                    {% endif %}
+                </p>
+                <a href="{{ path('user_profile_edit') }}" role="button" class="btn btn-success">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

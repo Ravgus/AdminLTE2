@@ -17,10 +17,10 @@
     <div class="w-100 order-1 order-md-0">
         <ul class="navbar-nav px-3">
             {% if is_granted('ROLE_ADMIN') %}
-            <li class="nav-item text-nowrap">
-                <a class="nav-link"
-                   href="{{ path('admin_index') }}">Admin</a>
-            </li>
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link"
+                       href="{{ path('admin_index') }}">Admin</a>
+                </li>
             {% endif %}
         </ul>
     </div>
@@ -28,6 +28,10 @@
     <div class="order-2 order-md-1">
         <ul class="navbar-nav px-3">
             {% if is_granted('ROLE_USER') %}
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link"
+                       href="{{ path('user_profile_index') }}">Cabinet</a>
+                </li>
                 <li class="nav-item text-nowrap">
                     <a class="nav-link"
                        href="{{ logout_path() }}">Sign out</a>
@@ -47,6 +51,9 @@
 </nav>
 
 <main role="main" class="container">
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger my-5">{{ message }}</div>
+    {% endfor %}
     <div class="my-3 p-3 bg-white rounded box-shadow">
         {% block body %}
             Welcome!

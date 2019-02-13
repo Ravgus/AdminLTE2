@@ -11,9 +11,11 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -63,9 +65,10 @@ class AdminProductController extends AbstractController
     /**
      * @Route("/add", name="admin_product_add")
      * @param Request $request
+     * @param FileUploader $fileUploader
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function addProduct(Request $request)
+    public function addProduct(Request $request, FileUploader $fileUploader)
     {
         $product = new Product();
 
@@ -73,7 +76,15 @@ class AdminProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $product = $form->getData();
+
+            $file = $product->getImage();
+
+            if ($file instanceof UploadedFile) {
+                $fileName = $fileUploader->upload($file, FileUploader::PATHS['PRODUCT']);
+                $product->setImage($fileName);
+            } else {
+                $product->setImage(null);
+            }
 
             $this->entityManager->persist($product);
             $this->entityManager->flush();
@@ -91,15 +102,27 @@ class AdminProductController extends AbstractController
      * @Route("/edit/{id}", name="admin_product_edit")
      * @param Product $product
      * @param Request $request
+     * @param FileUploader $fileUploader
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function editProduct(Product $product, Request $request)
+    public function editProduct(Product $product, Request $request, FileUploader $fileUploader)
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
+        $image = $product->getImage();
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $product = $form->getData();
+            //$product = $form->getData();
+
+            $file = $product->getImage();
+
+            if ($file instanceof UploadedFile) {
+                $fileName = $fileUploader->upload($file, FileUploader::PATHS['PRODUCT']);
+                $product->setImage($fileName);
+            } else {
+                $product->setImage($image);
+            }
 
             $this->entityManager->flush();
 

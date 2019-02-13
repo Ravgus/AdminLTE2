@@ -29,6 +29,7 @@ class Product
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotEqualTo("<p>&nbsp;</p>", message="This value should not be empty")
      * @Assert\NotBlank()
      */
     private $description;
@@ -54,6 +55,12 @@ class Product
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Image(maxSize="5M", maxSizeMessage="The image has to be less than 5 MB")
+     */
+    private $image;
 
     public function getId(): ?int
     {
@@ -118,6 +125,22 @@ class Product
         $this->category = $category;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image): void
+    {
+        $this->image = $image;
     }
 
     /**

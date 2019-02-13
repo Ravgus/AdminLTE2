@@ -120,14 +120,24 @@ class AppFixtures extends Fixture
 
     public function user(ObjectManager $manager)
     {
-        $user = new User();
+        $user1 = new User();
 
-        $user->setUsername('admin');
-        $user->setPassword($this->userPasswordEncoder->encodePassword($user, '1'));
-        $user->setEmail('admin@admin.com');
-        $user->setFullname('Admin User');
-        $user->setRoles([User::ROLE_ADMIN]);
+        $user1->setUsername('admin');
+        $user1->setPassword($this->userPasswordEncoder->encodePassword($user1, '1'));
+        $user1->setEmail('admin@admin.com');
+        $user1->setFullname('Admin User');
+        $user1->setRoles([User::ROLE_ADMIN]);
 
-        $manager->persist($user);
+        $manager->persist($user1);
+
+        $user2 = new User();
+
+        $user2->setUsername('user');
+        $user2->setPassword($this->userPasswordEncoder->encodePassword($user2, '1'));
+        $user2->setEmail('user@user.com');
+        $user2->setFullname('User User');
+        $user2->setRoles([User::ROLE_USER]);
+
+        $manager->persist($user2);
     }
 }

@@ -20,6 +20,13 @@
                 <b>Category</b>: {{ product.category.title }}<br>
                 <b>Price</b>: {{ product.price }}<br>
                 <b>Count</b>: {{ product.count }}<br>
+                <b>Image</b>:
+                {% if product.image is not empty %}
+                    <img src="{{ asset(product.image) }}" alt="{{ product.title }}">
+                {% else %}
+                    -
+                {% endif %}
+                <br>
             </div>
         </div>
         <!-- /.box -->
