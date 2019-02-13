@@ -4,9 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\User;
 use App\Repository\CategoryRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
@@ -45,16 +47,25 @@ class AppFixtures extends Fixture
      * @var CategoryRepository
      */
     private $categoryRepository;
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $userPasswordEncoder;
 
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(
+        CategoryRepository $categoryRepository,
+        UserPasswordEncoderInterface $userPasswordEncoder
+     )
     {
         $this->categoryRepository = $categoryRepository;
+        $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
     public function load(ObjectManager $manager)
     {
         $this->categories($manager);
         $this->products($manager);
+        $this->user($manager);
         
         $manager->flush();
     }
@@ -105,5 +116,18 @@ class AppFixtures extends Fixture
 
             $manager->persist($category);
         }
+    }
+
+    public function user(ObjectManager $manager)
+    {
+        $user = new User();
+
+        $user->setUsername('admin');
+        $user->setPassword($this->userPasswordEncoder->encodePassword($user, '1'));
+        $user->setEmail('admin@admin.com');
+        $user->setFullname('Admin User');
+        $user->setRoles([User::ROLE_ADMIN]);
+
+        $manager->persist($user);
     }
 }
