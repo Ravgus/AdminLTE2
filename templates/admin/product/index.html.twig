@@ -4,9 +4,6 @@
     Products
 {% endblock %}
 
-{% block content_header %}
-{% endblock %}
-
 {% block content_body %}
     <section class="content">
         <div class="row">
@@ -46,7 +43,7 @@
                                     <td>{{ product.count }}</td>
                                     <td>
                                         {% if product.image is not empty %}
-                                            <img src="{{ asset(product.image) }}" alt="{{ product.title }}">
+                                            <img src="{{ asset(product.image) | imagine_filter('middle') }}" alt="{{ product.title }}">
                                         {% else %}
                                             -
                                         {% endif %}

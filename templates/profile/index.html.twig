@@ -5,21 +5,18 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-12 mx-auto">
-                <p>Username: {{ app.user.username }}</p>
-                <p>Email: {{ app.user.email }}</p>
-                <p>FullName: {{ app.user.fullName }}</p>
-                <p>
-                    {% if app.user.logo is not empty %}
-                        <img src="{{ asset(app.user.logo) }}" alt="{{ app.user.username }}">
-                    {% else %}
-                        <img src="{{ asset('uploads/user-logo.png') }}" alt="{{ app.user.username }}">
-                    {% endif %}
-                </p>
-                <a href="{{ path('user_profile_edit') }}" role="button" class="btn btn-success">Edit Profile</a>
-            </div>
-        </div>
-    </div>
+    <h2 style="text-align: center;">Welcome to your Cabinet!</h2>
+
+    <p><b>Username</b>: {{ app.user.username }}</p>
+    <p><b>Email</b>: {{ app.user.email }}</p>
+    <p><b>FullName</b>: {{ app.user.fullName }}</p>
+    <p><b>User Logo: </b><br>
+        {% if app.user.logo is not empty %}
+            <img src="{{ asset(app.user.logo) | imagine_filter('big') }}" alt="{{ app.user.username }}">
+        {% else %}
+            -
+        {% endif %}
+    </p>
+    <a href="{{ path('user_profile_edit') }}" role="button" class="btn btn-success">Edit Profile</a>
+
 {% endblock %}

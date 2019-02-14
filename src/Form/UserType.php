@@ -32,7 +32,7 @@ class UserType extends AbstractType
             ])
             ->add('fullName', TextType::class)
             ->add('logo', FileType::class, [
-                'label' => 'Logo',
+                'label' => 'Logo (leave empty, if you don\'t want to change your logo)',
                 'required' => false,
                 'data_class' => null
             ])

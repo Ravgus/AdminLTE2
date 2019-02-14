@@ -20,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+
 /**
  * @Route("/admin/product")
  * @IsGranted("ROLE_ADMIN")
@@ -53,9 +55,12 @@ class AdminProductController extends AbstractController
     /**
      * @Route("/", name="admin_product_all")
      */
-    public function getAllProducts()
+    public function getAllProducts(Breadcrumbs $breadcrumbs)
     {
         $products = $this->productRepository->findBy([], ['id' => 'ASC']);
+
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index"));
+        $breadcrumbs->addItem("Products");
 
         return $this->render('admin/product/index.html.twig', [
             'products' => $products
@@ -107,13 +112,16 @@ class AdminProductController extends AbstractController
      */
     public function editProduct(Product $product, Request $request, FileUploader $fileUploader)
     {
+        $image = $product->getImage();
+
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
-        $image = $product->getImage();
+        //dd($image);
 
         if ($form->isSubmitted() && $form->isValid()) {
             //$product = $form->getData();
+            //dd($request);
 
             $file = $product->getImage();
 
@@ -158,8 +166,12 @@ class AdminProductController extends AbstractController
      * @param Product $product
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getCurrentProduct(Product $product)
+    public function getCurrentProduct(Product $product, Breadcrumbs $breadcrumbs)
     {
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index"));
+        $breadcrumbs->addItem("Products", $this->get("router")->generate("admin_product_all"));
+        $breadcrumbs->addItem($product->getTitle());
+
         return $this->render('admin/product/product.html.twig', [
             'product' => $product
         ]);

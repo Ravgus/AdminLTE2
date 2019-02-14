@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Main Page
+{% endblock %}
+
+{% block body %}
+    <h1 style="text-align: center;">Available products</h1>
+
+    <div class="row">
+        {% if products is not empty %}
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        {% if product.image is not empty %}
+                            <img class="bd-placeholder-img card-img-top" width="100%" height="256" src="{{ asset(product.image) | imagine_filter('middle') }}" alt="">
+                        {% else %}
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="256" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>{{ product.title }}</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em"></text></svg>
+                        {% endif %}
+                        <div class="card-body">
+                            <p class="card-header" style="text-align: center;">{{ product.title }}</p><br>
+                            <p class="card-text">{{ product.description|raw }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p>Price: <small class="text-muted">{{ product.price }}$</small></p>
+                                <p>Available: <small class="text-muted">{{ product.count != 0 ? 'yes' : 'no'}}</small></p>
+                            </div>
+                            <a role="button" href="#" class="btn btn btn-outline-secondary">Buy</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            There are no available products
+        {% endif %}
+
+    </div>
+
+{% endblock %}

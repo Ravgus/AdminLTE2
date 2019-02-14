@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterType;
+use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,6 +40,8 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $userPasswordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
+
+            $user->setLogo('/user-logo.png');
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

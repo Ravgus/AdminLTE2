@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+
 /**
  * @Route("/admin/category")
  * @IsGranted("ROLE_ADMIN")
@@ -51,9 +53,12 @@ class AdminCategoryController extends AbstractController
     /**
      * @Route("/", name="admin_category_all")
      */
-    public function getAllCategories()
+    public function getAllCategories(Breadcrumbs $breadcrumbs)
     {
         $categories = $this->categoryRepository->findBy([], ['id' => 'ASC']);
+
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index"));
+        $breadcrumbs->addItem("Categories");
 
         return $this->render('admin/category/index.html.twig', [
             'categories' => $categories
@@ -135,8 +140,12 @@ class AdminCategoryController extends AbstractController
      * @param Category $category
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getCurrentCategory(Category $category)
+    public function getCurrentCategory(Category $category, Breadcrumbs $breadcrumbs)
     {
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index"));
+        $breadcrumbs->addItem("Categories", $this->get("router")->generate("admin_category_all"));
+        $breadcrumbs->addItem($category->getTitle());
+
         return $this->render('admin/category/category.html.twig', [
             'category' => $category
         ]);

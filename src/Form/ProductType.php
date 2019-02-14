@@ -40,7 +40,8 @@ class ProductType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'label' => 'Image',
-                'required' => false
+                'required' => false,
+                'data_class' => null
                 ])
             ->add('Save', SubmitType::class);
     }
