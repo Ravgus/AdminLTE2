@@ -10,7 +10,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterType;
-use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +27,7 @@ class SecurityController extends AbstractController
     public function register(Request $request,
                              UserPasswordEncoderInterface $userPasswordEncoder)
     {
-        if ($this->getUser() instanceof User) {
+        if ($this->getUser() instanceof User) { //redirect if user already log in
             return $this->redirectToRoute('main_index');
         }
 
@@ -38,7 +37,7 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $userPasswordEncoder->encodePassword($user, $user->getPlainPassword());
+            $password = $userPasswordEncoder->encodePassword($user, $user->getPlainPassword()); //encode password
             $user->setPassword($password);
 
             $user->setLogo('/user-logo.png');
@@ -63,7 +62,7 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
-        if ($this->getUser() instanceof User) {
+        if ($this->getUser() instanceof User) { //redirect if user already log in
             return $this->redirectToRoute('main_index');
         }
 

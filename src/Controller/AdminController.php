@@ -24,7 +24,7 @@ class AdminController extends AbstractController
      */
     public function index(Breadcrumbs $breadcrumbs)
     {
-        $breadcrumbs->addItem("Home");
+        $breadcrumbs->addItem("Home"); //add breadcrumbs
 
         return $this->render('admin/lte.html.twig');
     }

@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
@@ -34,5 +35,15 @@ class MainController extends AbstractController
         return $this->render('index.html.twig', [
             'products' => $products
         ]);
+    }
+
+    /**
+     * @Route("/buy", name="main_buy")
+     */
+    public function buy() //some purchase logic
+    {
+        // TODO It's a stub
+
+        return new Response("Some logic........");
     }
 }

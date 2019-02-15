@@ -24,7 +24,7 @@
                                 <p>Price: <small class="text-muted">{{ product.price }}$</small></p>
                                 <p>Available: <small class="text-muted">{{ product.count != 0 ? 'yes' : 'no'}}</small></p>
                             </div>
-                            <a role="button" href="#" class="btn btn btn-outline-secondary">Buy</a>
+                            <a role="button" href="{{ path('main_buy') }}" class="btn btn btn-outline-secondary">Buy</a>
                         </div>
                     </div>
                 </div>

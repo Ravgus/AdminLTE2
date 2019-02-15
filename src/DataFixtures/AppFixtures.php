@@ -70,18 +70,8 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    public function products(ObjectManager $manager)
+    public function products(ObjectManager $manager) //generate products
     {
-        /*for ($i = 0; $i < 30; $i++) {
-            $product = new Product();
-            $product->setTitle(self::PRODUCT_TITLE[rand(0, count(self::PRODUCT_TITLE) - 1)]);
-            $product->setDescription(self::PRODUCT_DESC[rand(0, count(self::PRODUCT_DESC) - 1)]);
-            $product->setPrice(rand(0, 5000));
-            $product->setCount(rand(0, 100));
-
-            $manager->persist($product);
-        }*/
-
         $i = 0;
 
         foreach (self::PRODUCT_TITLE as $title) {
@@ -90,40 +80,33 @@ class AppFixtures extends Fixture
             $product->setDescription(self::PRODUCT_DESC[rand(0, count(self::PRODUCT_DESC) - 1)]);
             $product->setPrice(rand(0, 5000));
             $product->setCount(rand(0, 100));
-            $product->setCategory($this->getReference('t_'.$i));
+            $product->setCategory($this->getReference('t_'.$i)); //bind products with categories
             $i++;
 
             $manager->persist($product);
         }
     }
 
-    public function categories(ObjectManager $manager)
+    public function categories(ObjectManager $manager) //generate categories
     {
-        /*for ($i = 0; $i < 15; $i++) {
-            $category = new Category();
-            $category->setTitle(self::CATEGORY_TITLE[rand(0, count(self::CATEGORY_TITLE) - 1)]);
-
-            $manager->persist($category);
-        }*/
-
         $i = 0;
 
         foreach (self::CATEGORY_TITLE as $title) {
             $category = new Category();
             $category->setTitle($title);
-            $this->addReference('t_'.$i, $category);
+            $this->addReference('t_'.$i, $category); //bind products with categories
             $i++;
 
             $manager->persist($category);
         }
     }
 
-    public function user(ObjectManager $manager)
+    public function user(ObjectManager $manager) //generate users
     {
         $user1 = new User();
 
         $user1->setUsername('admin');
-        $user1->setPassword($this->userPasswordEncoder->encodePassword($user1, '1'));
+        $user1->setPassword($this->userPasswordEncoder->encodePassword($user1, '1')); //generate encrypted password
         $user1->setEmail('admin@admin.com');
         $user1->setFullname('Admin User');
         $user1->setRoles([User::ROLE_ADMIN]);

@@ -57,7 +57,7 @@ class AdminCategoryController extends AbstractController
     {
         $categories = $this->categoryRepository->findBy([], ['id' => 'ASC']);
 
-        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index"));
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index")); //add breadcrumbs
         $breadcrumbs->addItem("Categories");
 
         return $this->render('admin/category/index.html.twig', [
@@ -104,7 +104,7 @@ class AdminCategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $category = $form->getData();
+            //$category = $form->getData();
 
             $this->entityManager->flush();
 
@@ -127,7 +127,7 @@ class AdminCategoryController extends AbstractController
         $this->entityManager->remove($category);
         $this->entityManager->flush();
 
-        $this->flashBag->add(
+        $this->flashBag->add( //add message to session
             'notice',
             'Category was deleted'
         );
@@ -142,7 +142,7 @@ class AdminCategoryController extends AbstractController
      */
     public function getCurrentCategory(Category $category, Breadcrumbs $breadcrumbs)
     {
-        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index"));
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index")); //add breadcrumbs
         $breadcrumbs->addItem("Categories", $this->get("router")->generate("admin_category_all"));
         $breadcrumbs->addItem($category->getTitle());
 

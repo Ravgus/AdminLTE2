@@ -59,7 +59,7 @@ class AdminProductController extends AbstractController
     {
         $products = $this->productRepository->findBy([], ['id' => 'ASC']);
 
-        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index"));
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index")); //add breadcrumbs
         $breadcrumbs->addItem("Products");
 
         return $this->render('admin/product/index.html.twig', [
@@ -84,11 +84,11 @@ class AdminProductController extends AbstractController
 
             $file = $product->getImage();
 
-            if ($file instanceof UploadedFile) {
+            if ($file instanceof UploadedFile) { //if image is downloaded by user
                 $fileName = $fileUploader->upload($file, FileUploader::PATHS['PRODUCT']);
                 $product->setImage($fileName);
             } else {
-                $product->setImage(null);
+                $product->setImage(null); //save without image
             }
 
             $this->entityManager->persist($product);
@@ -117,19 +117,15 @@ class AdminProductController extends AbstractController
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
-        //dd($image);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            //$product = $form->getData();
-            //dd($request);
 
             $file = $product->getImage();
 
-            if ($file instanceof UploadedFile) {
+            if ($file instanceof UploadedFile) { //if image is downloaded by user
                 $fileName = $fileUploader->upload($file, FileUploader::PATHS['PRODUCT']);
                 $product->setImage($fileName);
             } else {
-                $product->setImage($image);
+                $product->setImage($image); //live previous image
             }
 
             $this->entityManager->flush();
@@ -153,7 +149,7 @@ class AdminProductController extends AbstractController
         $this->entityManager->remove($product);
         $this->entityManager->flush();
 
-        $this->flashBag->add(
+        $this->flashBag->add( //add message to session
             'notice',
             'Product was deleted'
         );
@@ -168,7 +164,7 @@ class AdminProductController extends AbstractController
      */
     public function getCurrentProduct(Product $product, Breadcrumbs $breadcrumbs)
     {
-        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index"));
+        $breadcrumbs->addItem("Home", $this->get("router")->generate("admin_index")); //add breadcrumbs
         $breadcrumbs->addItem("Products", $this->get("router")->generate("admin_product_all"));
         $breadcrumbs->addItem($product->getTitle());
 

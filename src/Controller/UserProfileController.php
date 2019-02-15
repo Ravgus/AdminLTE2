@@ -45,23 +45,23 @@ class UserProfileController extends AbstractController
         FileUploader $fileUploader)
     {
         /** @var User $user */
-        $user = $this->getUser();
+        $user = $this->getUser(); //get current log in user
         $logo = $user->getLogo();
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $userPasswordEncoder->encodePassword($user, $user->getPlainPassword());
+            $password = $userPasswordEncoder->encodePassword($user, $user->getPlainPassword()); //encode password
             $user->setPassword($password);
 
             $file = $user->getLogo();
 
-            if ($file instanceof UploadedFile) {
+            if ($file instanceof UploadedFile) { //if image is downloaded by user
                 $fileName = $fileUploader->upload($file, FileUploader::PATHS['USER']);
                 $user->setLogo($fileName);
             } else {
-                $user->setLogo($logo);
+                $user->setLogo($logo); //live previous image
             }
 
             $entityManager = $this->getDoctrine()->getManager();
